@@ -195,15 +195,15 @@ const appData = {
     servicePercentPrice: 0,
     service1: '',
     service2: '',
-    sum: 0,
-    price: 0,
-    sum: 0,
+  
     start: function () {
         appData.asking()
         appData.allServicePrices = appData.getAllServicePrices()
         appData.fullPrice = appData.getFullPrice()
         appData.servicePercentPrice = appData.getServicePercentPrice()
         appData.title = appData.getTitle()
+
+        appData.logger()
     },
     asking: function () {
         appData.title = prompt("Как называется ваш проект?", "Калькулятор верстки")
@@ -219,9 +219,9 @@ const appData = {
     },
 
     getAllServicePrices: function () {
-
+        let sum = 0
         for (let i = 0; i < 2; i++) {
-
+            let price = 0
             if (i === 0) {
                 appData.service1 = prompt("Какие услуги нужны?")
             } else if (i === 1) {
@@ -229,16 +229,16 @@ const appData = {
             }
 
             do {
-                appData.price = prompt("Сколько это будет стоить?")
-            } while (!appData.isNumber(appData.sum))
+                price = prompt("Сколько это будет стоить?")
+            } while (!appData.isNumber(sum))
 
-            appData.sum += +appData.price
+            sum += +price
         }
-        return appData.sum
+        return sum
         // return servicePrice1 + servicePrice2
     },
     getFullPrice: function () {
-        return appData.screenPrice + appData.allServicePrices
+        return +appData.screenPrice + appData.allServicePrices
     },
 
 
@@ -252,24 +252,26 @@ const appData = {
         return appData.title.trim()[0].toUpperCase() + appData.title.trim().substr(1).toLowerCase()
     },
 
-    getRollbackMessage: function () {
-        if (appData.price >= 30000) {
+    getRollbackMessage: function (price) {
+        if (price >= 30000) {
             return "Даём скидку в 10%";
-        } else if (appData.price >= 15000 && appData.price < 30000) {
+        } else if (price >= 15000 && price < 30000) {
             return "Даём скидку в 5%";
-        } else if (appData.price >= 0 && appData.price < 15000) {
+        } else if (price >= 0 && price < 15000) {
             return "Скидки нет";
         } else {
             return "Что то не так";
         }
+    },
+    logger: function () {
+        console.log(appData.fullPrice);
+        console.log(appData.servicePercentPrice);
+
     }
 }
 
 
 appData.start()
 
-
-console.log(appData.fullPrice);
-console.log(appData.servicePercentPrice);
 
 
